@@ -1,14 +1,20 @@
 services:
   ollama:
-      image: ollama/ollama:latest
-      ports:
-        - 11434:11434
-      volumes:
-        - ./ollama:/root/.ollama
-      container_name: ollama
-      pull_policy: always
-      tty: true
-      restart: always
-      environment:
-        - OLLAMA_KEEP_ALIVE=24h
-        - OLLAMA_HOST=0.0.0.0
+    image: ollama/ollama:latest
+    ports:
+      - 11434:11434
+    volumes:
+      - ./ollama:/root/.ollama
+    container_name: ollama
+    pull_policy: always
+    tty: true
+    restart: always
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
